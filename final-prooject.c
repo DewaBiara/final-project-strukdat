@@ -12,8 +12,8 @@ void BuatAkun();
 int  Login();
 void Profil();
 void UpdateAkun();
-void tambah_buku_beli();
-void daftar_buku_beli();
+void tambah_item();
+void daftar_item();
 void Menu();
 void Cari();
 void Pembelian();
@@ -171,7 +171,6 @@ int Login(){
 	}
 }
 
-
 void Menu(){
 	char pilihan, ulangi;
 	printf("________________________________________________________________________\n");
@@ -179,7 +178,7 @@ void Menu(){
 	printf("|______________________________________________________________________|\n");
 	do {
 		printf("~MENU~ \t: \n");
-		printf("1. Profil \n2. Daftar Buku \n3. Cari Buku \n4. Peminjaman Buku \n5. Pengembalian Buku \n6. Pembelian Buku \n7. Keluar \n");
+		printf("1. Profil \n2. Daftar Item \n3. Cari Item \n4. Pembelian Item \n5. Keluar \n");
 		printf("Masukkan Pilihan :");
 		scanf("%c", &pilihan); fflush(stdin);
 		system("cls");
@@ -194,39 +193,25 @@ void Menu(){
 			case '2':
 				system("cls");
 				printf("________________________________________________________________________\n");
-				printf("|                              Daftar Buku                             |\n");
+				printf("|                              Daftar Item                             |\n");
 				printf("|______________________________________________________________________|\n");
-				daftar_buku_pinjam();
+				daftar_item();
 				break;
 			case '3':
 				system("cls");
 				printf("________________________________________________________________________\n");
-				printf("|                               Cari Buku                              |\n");
+				printf("|                               Cari Item                              |\n");
 				printf("|______________________________________________________________________|\n");
 				Cari();
 				break;
 			case '4':
 				system("cls");
 				printf("________________________________________________________________________\n");
-				printf("|                            Peminjaman Buku                           |\n");
-				printf("|______________________________________________________________________|\n");
-				Peminjaman();
-				break;
-			case '5':
-				system("cls");
-				printf("________________________________________________________________________\n");
-				printf("|                           Pengembalian Buku                          |\n");
-				printf("|______________________________________________________________________|\n");
-				Pengembalian();
-				break;
-			case '6':
-				system("cls");
-				printf("________________________________________________________________________\n");
-				printf("|                            Pembelian Buku                            |\n");
+				printf("|                            Pembelian Item                            |\n");
 				printf("|______________________________________________________________________|\n");
 				Pembelian();
 				break;
-			case '7':
+			case '5':
 				system("pause");
       			exit(0);
 				break;
@@ -237,5 +222,62 @@ void Menu(){
 	scanf("%c",&ulangi); fflush(stdin);
 	system("cls");
 	} while(ulangi == 'y');
+}
+
+void Profil(){
+	Biodata Pembeli;
+	char id[20], pilihan;
+	PEMBELI=fopen("pengunjung.txt","r");
+	printf("Masukan Username sekali lagi \t: ");scanf("%s",&id);fflush(stdin);
+	while (!feof(PEMBELI)){
+		fscanf(PEMBELI,"%[^_]_%[^_]_%i_%[^_]_%[^_]_%[^\n]\n",&Pembeli.nama, &Pembeli.username, &Pembeli.umur, &Pembeli.telepon, &Pembeli.pendidikan, &Pembeli.password);
+		fflush(stdin);
+		if(strcmp(id,Pembeli.username)==0){
+			printf("Nama \t\t\t: %s\n", Pembeli.nama);
+			printf("Umur \t\t\t: %i\n", Pembeli.umur);
+			printf("No Telepon \t\t: %s\n", Pembeli.telepon);
+			printf("Nama Sekolah/Instansi \t: %s\n", Pembeli.pendidikan);
+		}
+	}
+	fclose(PEMBELI);
+	printf("Apakah anda ingin update akun?\n");
+	printf("Masukkan Pilihan (y/n): ");
+	scanf("%c", &pilihan); fflush(stdin);
+	if(pilihan == 'y' || pilihan == 'Y'){
+			system("cls");
+			printf("________________________________________________________________________\n");
+			printf("|                             Update Akun                              |\n");
+			printf("|______________________________________________________________________|\n");
+			UpdateAkunP();
+	}
+}
+
+void UpdateAkun(){
+	Biodata Pembeli[20];
+	char id[20];
+	int index,i;
+	index=0;
+	PEMBELI=fopen("pengunjung.txt","r");
+	printf("Masukan Username sekali lagi \t: ");scanf("%s",&id);fflush(stdin);
+	while (!feof(PEMBELI)){
+		fscanf(PEMBELI,"%[^_]_%[^_]_%i_%[^_]_%[^_]_%[^\n]\n",&Pembeli[index].nama, &Pembeli[index].username, &Pembeli[index].umur, &Pembeli[index].telepon, &Pembeli[index].pendidikan, &Pembeli[index].password);
+		fflush(stdin);
+		if(strcmp(id,Pembeli[index].username)==0){
+			printf("Nama baru \t\t\t: "); scanf("%[^\n]",&Pembeli[index].nama); fflush(stdin);
+			printf("Umur baru \t\t\t: "); scanf("%i",&Pembeli[index].umur); fflush(stdin);
+			printf("No Telepon baru \t\t: "); scanf("%[^\n]",&Pembeli[index].telepon); fflush(stdin);
+			printf("Nama Sekolah/Instansi baru \t: "); scanf("%[^\n]",&Pembeli[index].pendidikan); fflush(stdin);
+		}
+		index++;
+	}
+	fclose(PEMBELI);
+	PEMBELI=fopen("pengunjung.txt","w");
+	fclose(PEMBELI);
+	PEMBELI=fopen("pengunjung.txt","a");
+	for(i=0; i<index; i++){
+		fprintf(PEMBELI,"%s_%s_%i_%s_%s_%s\n", Pembeli[i].nama, Pembeli[i].username, Pembeli[i].umur, Pembeli[i].telepon, Pembeli[i].pendidikan, Pembeli[i].password);
+	}
+	printf("Selamat! Akun Anda sudah berhasil diupdate.\n");
+	fclose(PEMBELI);
 }
 
