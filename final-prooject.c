@@ -256,3 +256,49 @@ void Profil(){
 			UpdateAkun();
 	}
 }
+
+void UpdateAkun(){
+	Biodata Pembeli[20];
+	char id[20];
+	int index,i;
+	index=0;
+	PEMBELI=fopen("pembeli.txt","r");
+	printf("Masukan Username sekali lagi \t: ");scanf("%s",&id);fflush(stdin);
+	while (!feof(PEMBELI)){
+		fscanf(PEMBELI,"%[^_]_%[^_]_%i_%[^_]_%[^_]_%[^\n]\n",&Pembeli[index].nama, &Pembeli[index].username, &Pembeli[index].umur, &Pembeli[index].telepon, &Pembeli[index].pendidikan, &Pembeli[index].password);
+		fflush(stdin);
+		if(strcmp(id,Pembeli[index].username)==0){
+			printf("Nama baru \t\t\t: "); scanf("%[^\n]",&Pembeli[index].nama); fflush(stdin);
+			printf("Umur baru \t\t\t: "); scanf("%i",&Pembeli[index].umur); fflush(stdin);
+			printf("No Telepon baru \t\t: "); scanf("%[^\n]",&Pembeli[index].telepon); fflush(stdin);
+			printf("Nama Sekolah/Instansi baru \t: "); scanf("%[^\n]",&Pembeli[index].pendidikan); fflush(stdin);
+		}
+		index++;
+	}
+	fclose(PEMBELI);
+	PEMBELI=fopen("pembeli.txt","w");
+	fclose(PEMBELI);
+	PEMBELI=fopen("pembeli.txt","a");
+	for(i=0; i<index; i++){
+		fprintf(PEMBELI,"%s_%s_%i_%s_%s_%s\n", Pembeli[i].nama, Pembeli[i].username, Pembeli[i].umur, Pembeli[i].telepon, Pembeli[i].pendidikan, Pembeli[i].password);
+	}
+	printf("Selamat! Akun Anda sudah berhasil diupdate.\n");
+	fclose(PEMBELI);
+}
+
+void daftar_pengiriman(){
+	Biodata Pembeli;
+	Barang Barang;
+	PEMBELI=fopen("pembelian.txt","r");
+	while (!feof(PEMBELI)){
+		fscanf(PEMBELI,"%[^_]_%[^_]_%i_%[^_]_%[^_]_%[^\n]\n",&Barang.nama_barang, &Barang.no, &Barang.harga, &Pembeli.nama, &Pembeli.username, &Pembeli.telepon);
+		fflush(stdin);
+			printf("Nama Barang \t\t: %s\n", Barang.nama_barang);
+			printf("No Barang \t\t\t: %s\n", Barang.no);
+			printf("Harga Barang \t\t; %i\n", Barang.harga);
+			printf("Nama \t\t\t: %s\n", Pembeli.nama);
+			printf("Nama Sekolah/Instansi \t: %s\n", Pembeli.username);
+			printf("No Telepon \t\t: %s\n\n", Pembeli.telepon);
+	}
+	fclose(PEMBELI);
+}
