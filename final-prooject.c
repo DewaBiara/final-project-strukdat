@@ -318,3 +318,9 @@ void Pembelian(){
 	while (!feof(BARANG)){
 		fscanf(BARANG,"%[^_]_%[^_]_%[^_]_%i_%i_%i\n", &Barang[index].nama_barang, &Barang[index].merk, &Barang[index].supplier, &Barang[index].no, &Barang[index].jmlh, &Barang[index].harga);
 		fflush(stdin);
+		if(no == Barang[index].no){
+			if(Barang[index].jmlh > 0){
+				printf("======================Barang Berhasil Dibeli===============\n");
+				Barang[index].jmlh -= 1;
+				PEMBELI=fopen("pembeli.txt","r");
+				printf("Masukan Username sekali lagi \t: "); scanf("%s",&id); fflush(stdin);
