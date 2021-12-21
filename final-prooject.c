@@ -327,3 +327,9 @@ void Pembelian(){
 				while (!feof(PEMBELI)){
 					fscanf(PEMBELI,"%[^_]_%[^_]_%i_%[^_]_%[^_]_%[^\n]\n",&Pembeli.nama, &Pembeli.username, &Pembeli.umur, &Pembeli.telepon, &Pembeli.pendidikan, &Pembeli.password);
 					fflush(stdin);
+					if(strcmp(id,Pembeli.username)==0){
+						PEMBELI=fopen("pembelian.txt", "a");
+						fprintf(PEMBELI,"%s_%i_%i_%s_%s_%s\n", Barang[index].nama_barang, Barang[index].no, Barang[index].harga, Pembeli.nama, Pembeli.username, Pembeli.telepon);
+						fclose(PEMBELI);
+						printf("Anda ingin mencetak struk?(y/n)");
+                   		scanf("%c", &c);
