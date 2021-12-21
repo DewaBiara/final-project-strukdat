@@ -324,3 +324,6 @@ void Pembelian(){
 				Barang[index].jmlh -= 1;
 				PEMBELI=fopen("pembeli.txt","r");
 				printf("Masukan Username sekali lagi \t: "); scanf("%s",&id); fflush(stdin);
+				while (!feof(PEMBELI)){
+					fscanf(PEMBELI,"%[^_]_%[^_]_%i_%[^_]_%[^_]_%[^\n]\n",&Pembeli.nama, &Pembeli.username, &Pembeli.umur, &Pembeli.telepon, &Pembeli.pendidikan, &Pembeli.password);
+					fflush(stdin);
