@@ -350,3 +350,20 @@ void Pembelian(){
                     	}
 					}
 				}
+				fclose(PEMBELI);
+			}
+			else {
+				printf("======================Barang Tidak Dapat Dibeli===============\n");
+			}
+		}
+		index++;
+	}
+	fclose(BARANG);
+	BARANG=fopen("barang.txt","w");
+	fclose(BARANG);
+	BARANG=fopen("barang.txt","a");
+	for(i=0; i<index; i++){
+		fprintf(BARANG,"%s_%s_%s_%s_%i_%i_%i\n", Barang[i].nama_barang, Barang[i].merk, Barang[i].supplier, Barang[i].no, Barang[i].jmlh, Barang[i].harga);
+	}
+	fclose(BARANG);
+}
