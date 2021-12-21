@@ -333,3 +333,20 @@ void Pembelian(){
 						fclose(PEMBELI);
 						printf("Anda ingin mencetak struk?(y/n)");
                    		scanf("%c", &c);
+						   if(c == 'y' || c == 'Y'){
+                    	   	system("cls");
+                   	    	PEMBELIAN=fopen("pembelian.txt", "r");
+                  	 	    printf("Tanggal pembelian : %s", ctime(&now));
+                  	 	    printf("======================Struk Bukti Pembelian===============\n");
+                  			printf("Nama Barang \t\t: %s\n", Barang[index].nama_barang);
+							printf("No Barang \t\t: %i\n", Barang[index].no);
+							printf("Harga Barang \t\t; %i\n", Barang[index].harga);
+							printf("Nama \t\t\t: %s\n", Pembeli.nama);
+							printf("Nama Sekolah/Instansi \t: %s\n", Pembeli.username);
+							printf("No Telepon \t\t: %s\n\n", Pembeli.telepon);
+              	          	printf("Terima Kasih telah berbelanja.\n");
+             	          	printf("===========================================================\n");
+
+                    	}
+					}
+				}
