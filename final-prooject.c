@@ -636,3 +636,104 @@ void search(barang_queue *start, char *dicari)
     }
     printf("\t Barang yang dikirim oleh %s tidak ditemukan\n", dicari);
 }
+
+void hasEulerPath(int node[vertex][vertex], int in[vertex], int out[vertex])
+{
+    int odd = 0;
+    int even = 0;
+    if (vertex < 2)
+    {
+        eulerCircuit = false;
+        eulerPath = false;
+    }
+    else if (vertex == 2 && (node[0][1] == 1 || node[1][0] == 1))
+    {
+        eulerCircuit = false;
+        eulerPath = true;
+        if (node[0][1] == 1 && node[1][0] == 0)
+            startNode = 0;
+        else
+            startNode = 1;
+    }
+    else
+    {
+        if (directed == false)
+        {
+            for (int i = 0; i < vertex; i++)
+            {
+                if (in[i] % 2 != 0)
+                {
+                    odd++;
+                    if (odd == 1)
+                        startNode = i;
+                    if (odd == 2)
+                        finishNode = i;
+                    if (odd > 2)
+                    {
+                        eulerCircuit = false;
+                        eulerPath = false;
+                        break;
+                    }
+                }
+            }
+            if (odd == 0)
+            {
+                startNode = 0;
+                finishNode = 0;
+            }
+            if (odd > 2 || odd == 1)
+                eulerPath = false;
+            if (odd > 0)
+                eulerCircuit = false;
+        }
+
+        else
+        {
+            for (int i = 0; i < vertex; i++)
+            {
+                if (out[i] - in[i] == 1)
+                {
+                    start++;
+                    if (start = 1)
+                        startNode = i;
+
+                    if (start > 1)
+                    {
+                        eulerPath = false;
+                        eulerCircuit = false;
+                        break;
+                    }
+                }
+                if (in[i] - out[i] == 1)
+                {
+                    finish++;
+                    if (finish == 1)
+                        finishNode = i;
+
+                    if (finish > 1)
+                    {
+                        eulerPath = false;
+                        eulerCircuit = false;
+                        break;
+                    }
+                }
+                if (in[i] == out[i])
+                    even++;
+                if (even != vertex && start == 1)
+                    eulerCircuit = false;
+            }
+        }
+    }
+    if (eulerPath == true)
+    {
+        printf("\t Jalur Euler Ditemukan\n");
+        printf("\t Start Node : %d\n", startNode + 1);
+        printf("\t Finish Node: %d\n", finishNode + 1);
+    }
+    else
+        printf("\t Jalur Euler Tidak Ditemukan\n");
+    if (eulerCircuit == true)
+        printf("\t Sirkuit Euler Ditemukan\n");
+    else
+        printf("\t Sirkuit Euler Tidak Ditemukan\n");
+}
