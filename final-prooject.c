@@ -367,3 +367,47 @@ void Pembelian(){
 	}
 	fclose(BARANG);
 }
+
+void daftar_barang(){
+    Barang Barang;
+    BARANG = fopen("barang.txt", "r");
+	printf("==========================================================================================================================\n");
+    printf("No Barang \t"); 
+	printf("Nama Barang \t\t\t");
+    printf("Merk \t\t\t");
+    printf("Supplier \t"); 
+    printf("Jumlah Barang \t");
+    printf("Harga \t");
+    printf("\n=========================================================================================================================\n");
+    while (!feof(BARANG)){
+    fscanf(BARANG,"%[^_]_%[^_]_%[^_]_%i_%i_%i\n", &Barang.nama_barang, &Barang.merk, &Barang.supplier, &Barang.no, &Barang.jmlh, &Barang.harga);
+		fflush(stdin);
+			printf("|%-2i| \t", Barang.no); 
+			printf("|%-30s|", Barang.nama_barang);
+			printf("|%-25s|", Barang.merk);
+			printf("|%-25s|", Barang.supplier); 
+			printf("|%-4i|\t", Barang.jmlh);
+			printf("|%-10i|\n", Barang.harga);
+	}
+    fclose(BARANG);
+}
+
+void Cari(){
+	Barang Barang;
+    BARANG = fopen("barang.txt", "r");
+	int id;
+	printf("Masukan NO Item yang ingin dicari \t: "); scanf("%i",&id); fflush(stdin);
+	while (!feof(BARANG)){
+    	fscanf(BARANG,"%[^_]_%[^_]_%[^_]_%i_%i_%i\n", &Barang.nama_barang, &Barang.merk, &Barang.supplier, &Barang.no, &Barang.jmlh, &Barang.harga);
+		fflush(stdin);
+		if(id == Barang.no){
+			printf("No Barang \t: %i\n", Barang.no);
+			printf("Nama Barang \t: %s\n", Barang.nama_barang);
+            		printf("Merk \t\t: %s\n", Barang.merk);
+            		printf("Supplier \t: %s\n", Barang.supplier); 
+            		printf("Jumlah Barang \t: %i\n", Barang.jmlh); 
+            		printf("Harga \t\t: %i\n\n", Barang.harga);
+        }
+    }
+    fclose(BARANG);
+}
