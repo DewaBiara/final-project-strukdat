@@ -737,3 +737,207 @@ void hasEulerPath(int node[vertex][vertex], int in[vertex], int out[vertex])
     else
         printf("\t Sirkuit Euler Tidak Ditemukan\n");
 }
+
+int pengiriman()
+{
+    int ch, choice, pos, i, j;
+    int banyak_truk = 1;
+    int banyak_barang = 1;
+    char item[50];
+    queue *q;
+    q = malloc(sizeof(queue));
+    initialize(q);
+    while (banyak_truk <= MAX_TRUCK)
+    {
+        printf("\t=================================\n");
+        printf("\t           GUDANG BALI           \n");
+        printf("\t=================================\n");
+        printf("\t 1. Input barang ke gudang\n");
+        printf("\t 2. Hapus barang dari antrian\n");
+        printf("\t 3. Masukkan barang ke truck\n");
+        printf("\t 4. Lihat barang di antrian\n");
+        printf("\t 5. Lihat barang di truk\n");
+        printf("\t 6. Kirim barang ke cabang tujuan\n");
+        printf("\t 7. Cari barang\n");
+        printf("\t 8. Keluar\n");
+        printf("\t=================================\n");
+        printf("\t Input : ");
+        scanf("%d", &ch);
+        if (ch == 1)
+        {
+            while (banyak_barang <= TRUCK_SIZE)
+            {
+                printf("\t Masukkan data dari barang\n");
+                enqueue(q);
+                banyak_barang++;
+                printf("\t=================================\n");
+            }
+        }
+        else if (ch == 2)
+        {
+            dequeue(q);
+        }
+        else if (ch == 3)
+        {
+            barang_queue *bantu;
+            bantu = q->front;
+            do
+            {
+                push(bantu->data, bantu->pengirim, bantu->penerima, bantu->alamat);
+                bantu = bantu->next;
+            } while (bantu != NULL);
+            printf("\t Barang berhasil dimasukan ke truk\n");
+        }
+        else if (ch == 4)
+        {
+            printf("\t ===================================\n");
+            display(q->front);
+        }
+        else if (ch == 5)
+        {
+            display_stack();
+        }
+        else if (ch == 6)
+        {
+            if ((banyak_barang = TRUCK_SIZE) && (banyak_truk <= 3))
+            {
+                printf("\t BARANG TELAH DIKIRIM KE BALI\n");
+                banyak_truk++;
+                while (1)
+                {
+                    printf("\t=================================\n");
+                    printf("\t          GUDANG Cabang          \n");
+                    printf("\t=================================\n");
+                    printf("\t 1. Cek barang di truk\n");
+                    printf("\t 2. Urutkan barang\n");
+                    printf("\t 3. Kirim barang ke pelanggan\n");
+                    printf("\t 4. Keluar\n");
+                    printf("\t Input : ");
+                    scanf("%d", &choice);
+                    if (choice == 1)
+                    {
+                        display_stack();
+                    }
+                    else if (choice == 2)
+                    {
+                        bubble_sort(q->front);
+                        printf("\t Sort Barang Berdasarkan Berat\n");
+                        display_sort(q->front);
+                    }
+                    else if (choice == 3)
+                    {
+                        int allVisited = 0;
+                        vertex = TRUCK_SIZE;
+                        int node[vertex][vertex];
+                        printf("\t Masukkan 1 apabila terhubung \n");
+                        printf("\t Masukkan 0 jika tidak terhubung \n");
+                        for (i = 0; i < vertex; i++)
+                        {
+                            for (j = 0; j < vertex; j++)
+                            {
+                                if (i != j)
+                                {
+                                    printf("\t Alamat ke-%d dan alamat ke-%d: ", i + 1, j + 1);
+                                    scanf("%d", &node[i][j]);
+                                }
+                                else
+                                {
+                                    node[i][j] = 0;
+                                }
+                            }
+                        }
+                        printf("\t Tampilan Matriks : \n");
+                        for (i = 0; i < vertex; i++)
+                        {
+                            for (j = 0; j < vertex; j++)
+                            {
+                                printf("\t %d ", node[i][j]);
+                            }
+                            printf("\n");
+                        }
+                        if (vertex < 2)
+                            printf("\t Tidak Ada Graph yang terbentuk!\n");
+                        else
+                        {
+                            int outdegree[vertex];
+                            for (i = 0; i < vertex; i++)
+                            {
+                                outdegree[i] = 0;
+                                for (j = 0; j < vertex; j++)
+                                {
+                                    if (node[i][j] == 1)
+                                    {
+                                        outdegree[i]++;
+                                    }
+                                }
+                            }
+                            int indegree[vertex];
+                            for (j = 0; j < vertex; j++)
+                            {
+                                indegree[j] = 0;
+                                for (i = 0; i < vertex; i++)
+                                {
+                                    if (node[i][j] == 1)
+                                    {
+                                        indegree[j]++;
+                                    }
+                                }
+                            }
+                            if (directed == true)
+                                printf("\t Berarah!\n");
+                            else
+                                printf("\t Tidak Berarah!\n");
+                            hasEulerPath(node, indegree, outdegree);
+                            if (eulerPath == true)
+                            {
+                                printf("\n\t Rute Euler:\n");
+                                j = startNode;
+                                while (allVisited != 1)
+                                {
+                                    for (i = vertex - 1; i >= 0; i--)
+                                    {
+                                        if (node[j][i] == 1)
+                                        {
+                                            if (startNode > -1)
+                                            {
+                                                printf("\t %d -> %d\n", j + 1, i + 1);
+                                                startNode = -1;
+                                            }
+                                            else
+                                                printf("\t %d -> %d\n", j + 1, i + 1);
+                                            node[j][i] = 0;
+                                            node[i][j] = 0;
+                                            j = i;
+                                            break;
+                                        }
+                                        else if (j == finishNode && i == 0 && node[j][i] == 0)
+                                        {
+                                            allVisited = 1;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (choice == 4)
+                    {
+                        exit(1);
+                    }
+                }
+            }
+        }
+        else if (ch == 7)
+        {
+            printf("\t Masukkan nama pengirim : ");
+            fflush(stdin);
+            scanf("%[^\n]s", &item);
+            search(q->front, item);
+        }
+        else if (ch == 8)
+        {
+            break;
+        }
+    }
+    return 0;
+}
