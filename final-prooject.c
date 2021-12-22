@@ -578,3 +578,61 @@ void swap(barang_queue *a, barang_queue *b)
     a->data = b->data;
     b->data = temp;
 }
+
+void bubble_sort(barang_queue *start)
+{
+    int swapped, i;
+    barang_queue *ptr1;
+    barang_queue *lptr = NULL;
+
+    if (start == NULL)
+    {
+        return;
+    }
+    do
+    {
+        swapped = 0;
+        ptr1 = start;
+        while (ptr1->next != lptr)
+        {
+            if (ptr1->data > ptr1->next->data)
+            {
+                swap(ptr1, ptr1->next);
+                swapped = 1;
+            }
+            ptr1 = ptr1->next;
+        }
+        lptr = ptr1;
+    } while (swapped);
+}
+
+void display_sort(barang_queue *head)
+{
+    if (head == NULL)
+    {
+        printf(" ");
+    }
+    else
+    {
+        printf("\t --%d\n", head->data);
+        display_sort(head->next);
+    }
+}
+
+void search(barang_queue *start, char *dicari)
+{
+    barang_queue *p;
+    int pos = 1;
+    p = start;
+    while (p != NULL)
+    {
+        if (strcmp(p->pengirim, dicari) == 0)
+        {
+            printf("\t Barang yang dikirim oleh %s ditemukan diposisi %d\n", dicari, pos);
+            return;
+        }
+        p = p->next;
+        pos++;
+    }
+    printf("\t Barang yang dikirim oleh %s tidak ditemukan\n", dicari);
+}
