@@ -495,3 +495,86 @@ void display_stack()
         }
     }
 }
+
+void initialize(queue *q)
+{
+    q->count = 0;
+    q->front = NULL;
+    q->rear = NULL;
+}
+
+int isempty(queue *q)
+{
+    return (q->rear == NULL);
+}
+
+void enqueue(queue *q)
+{
+    if (q->count < TRUCK_SIZE)
+    {
+        barang_queue *tmp;
+        tmp = malloc(sizeof(barang_queue));
+        printf("\t Masukkan nama pengirim : ");
+        fflush(stdin);
+        scanf("%[^\n]s", tmp->pengirim);
+        printf("\t Masukkan nama penerima : ");
+        fflush(stdin);
+        scanf("%[^\n]s", tmp->penerima);
+        printf("\t Masukkan alamat penerima : ");
+        fflush(stdin);
+        scanf("%[^\n]s", tmp->alamat);
+        printf("\t Masukkan berat : ");
+        scanf("%d", &(tmp->data));
+        tmp->next = NULL;
+        if (!isempty(q))
+        {
+            q->rear->next = tmp;
+            q->rear = tmp;
+        }
+        else
+        {
+            q->front = q->rear = tmp;
+        }
+        q->count++;
+    }
+    else
+    {
+        printf("\t Antrian sudah full!\n");
+    }
+}
+
+int dequeue(queue *q)
+{
+    barang_queue *tmp;
+    int n = q->front->data;
+    tmp = q->front;
+    q->front = q->front->next;
+    q->count--;
+    free(tmp);
+    return (n);
+}
+
+void display(barang_queue *head)
+{
+    if (head == NULL)
+    {
+        printf("\t Tidak Ada Barang Lagi\n");
+    }
+    else
+    {
+        printf("\t DATA PENGIRIM DAN PENERIMA\n");
+        printf("\t NAMA PENGIRIM : %s\n", head->pengirim);
+        printf("\t NAMA PENERIMA : %s\n", head->penerima);
+        printf("\t ALAMAT PENERIMA : %s\n", head->alamat);
+        printf("\t BERAT BARANG : %d\n", head->data);
+        printf("\t ===================================\n");
+        display(head->next);
+    }
+}
+
+void swap(barang_queue *a, barang_queue *b)
+{
+    int temp = a->data;
+    a->data = b->data;
+    b->data = temp;
+}
