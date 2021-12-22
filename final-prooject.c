@@ -281,3 +281,69 @@ void UpdateAkun(){
 	fclose(PEMBELI);
 }
 
+void push(int berat, char kirim[], char terima[], char alamat[])
+{
+    barang_stack *temp = (barang_stack *)malloc(sizeof(barang_stack));
+    temp->prev = NULL;
+    temp->next = NULL;
+    temp->data = berat;
+    strcpy(temp->pengirim, kirim);
+    strcpy(temp->penerima, terima);
+    strcpy(temp->alamat, alamat);
+    if (isEmpty() == 1)
+    {
+        top = temp;
+    }
+    else
+    {
+        top->next = temp;
+        temp->prev = top;
+        top = temp;
+    }
+}
+
+void pop()
+{
+    barang_stack *hapus;
+    hapus = top;
+    if (isEmpty() == 1)
+    {
+        printf("Tidak ada barang\n");
+    }
+    else
+    {
+        top = top->prev;
+        free(hapus);
+    }
+}
+
+void display_stack()
+{
+    barang_stack *bantu;
+    bantu = top;
+    printf("\t Barang : \n");
+    if (isEmpty() == 1)
+    {
+        printf("\t --KOSONG--\n");
+    }
+    else
+    {
+        while (bantu != NULL)
+        {
+            printf("\t ===================================\n");
+            printf("\t Nama Pengirim :  %s\n", bantu->pengirim);
+            printf("\t Nama Penerima :  %s\n", bantu->penerima);
+            printf("\t Alamat Penerima :  %s\n", bantu->alamat);
+            printf("\t Berat Barang :  %d\n", bantu->data);
+            printf("\t ===================================\n");
+            bantu = bantu->prev;
+        }
+    }
+}
+
+void initialize(queue *q)
+{
+    q->count = 0;
+    q->front = NULL;
+    q->rear = NULL;
+}
